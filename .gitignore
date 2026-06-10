@@ -1,0 +1,34 @@
+# IntelliJ / Android Studio
+*.iml
+.idea/
+
+# Gradle / Kotlin
+.gradle/
+.kotlin/
+build/
+app/build/
+
+# Local machine config
+local.properties
+
+# Native build outputs
+.externalNativeBuild/
+.cxx/
+
+# Android Studio generated
+captures/
+
+# Firebase / secrets / local config copies
+google-services.json
+app/google-services.json
+*.jks
+*.keystore
+
+# Documents
+*.pdf
+*.md
+!README.md
+
+# OS files
+.DS_Store
+Thumbs.db
