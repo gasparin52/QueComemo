@@ -13,7 +13,7 @@
         <activity
             android:name="com.quecomemo.app.MainActivity"
             android:exported="true"
-            android:theme="@style/Theme.QueComemo">
+            android:theme="@style/Theme.QueComemo.Starting">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
