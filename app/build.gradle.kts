@@ -1,6 +1,8 @@
 plugins {
     alias(libs.plugins.android.application)
+    alias(libs.plugins.hilt.android)
     alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.kotlin.kapt)
     alias(libs.plugins.compose.compiler)
 }
 
@@ -48,9 +50,11 @@ android {
 dependencies {
     implementation(platform(libs.compose.bom))
     androidTestImplementation(platform(libs.compose.bom))
+    implementation(platform(libs.firebase.bom))
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.core.splashscreen)
+    implementation(libs.androidx.lifecycle.runtime.compose)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
     implementation(libs.google.material)
@@ -58,6 +62,13 @@ dependencies {
     implementation(libs.compose.ui.graphics)
     implementation(libs.compose.ui.tooling.preview)
     implementation(libs.compose.material3)
+    implementation(libs.firebase.auth)
+    implementation(libs.hilt.android)
 
+    kapt(libs.hilt.android.compiler)
     debugImplementation(libs.compose.ui.tooling)
+}
+
+kapt {
+    correctErrorTypes = true
 }

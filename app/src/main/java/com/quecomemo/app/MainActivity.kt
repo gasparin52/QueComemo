@@ -4,48 +4,56 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.compose.runtime.Composable
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.MaterialTheme
+import androidx.activity.viewModels
 import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.quecomemo.app.presentation.auth.LoginPlaceholderScreen
+import com.quecomemo.app.presentation.home.HomePlaceholderScreen
+import com.quecomemo.app.presentation.splash.SplashGateScreen
+import com.quecomemo.app.presentation.splash.SplashUiState
+import com.quecomemo.app.presentation.splash.SplashViewModel
 import com.quecomemo.app.ui.theme.QueComemoTheme
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
+    private val splashViewModel: SplashViewModel by viewModels()
+
     override fun onCreate(savedInstanceState: Bundle?) {
-        installSplashScreen()
+        val splashScreen = installSplashScreen()
+        splashScreen.setKeepOnScreenCondition {
+            splashViewModel.uiState.value is SplashUiState.Loading
+        }
+
         super.onCreate(savedInstanceState)
+
+        splashScreen.setOnExitAnimationListener { splashScreenViewProvider ->
+            splashScreenViewProvider.iconView.animate()
+                .rotationBy(360f)
+                .setDuration(450L)
+                .withEndAction { splashScreenViewProvider.remove() }
+                .start()
+        }
+
         enableEdgeToEdge()
-        setContent { AppRoot() }
+        setContent { AppRoot(splashViewModel) }
     }
 }
 
 @Composable
-private fun AppRoot() {
+private fun AppRoot(
+    viewModel: SplashViewModel
+) {
+    val uiState = viewModel.uiState.collectAsStateWithLifecycle().value
+
     QueComemoTheme {
         Surface {
-            Column(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(24.dp),
-                verticalArrangement = Arrangement.Center,
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-                Text(
-                    text = "QueComemo",
-                    style = MaterialTheme.typography.headlineLarge
-                )
-                Text(
-                    text = "Proyecto base listo para empezar.",
-                    modifier = Modifier.padding(top = 12.dp)
-                )
+            when (uiState) {
+                SplashUiState.Loading -> SplashGateScreen()
+                SplashUiState.NavigateToHome -> HomePlaceholderScreen()
+                SplashUiState.NavigateToLogin -> LoginPlaceholderScreen()
             }
         }
     }
