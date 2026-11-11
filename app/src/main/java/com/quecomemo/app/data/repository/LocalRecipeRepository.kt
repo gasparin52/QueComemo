@@ -14,12 +14,14 @@ class LocalRecipeRepository @Inject constructor(
     private val recipeSeedReader: RecipeSeedReader
 ) : RecipeRepository {
     override suspend fun ensureSeedData() {
+        val seedRecipes = recipeSeedReader.readRecipes()
         val currentCount = recipeDao.countRecipes()
         val hasOldGeneratedSeed = recipeDao.existsRecipe(OLD_GENERATED_SEED_ID)
-        val needsUpdatedCuratedSeed = !recipeDao.existsRecipe(CURRENT_CURATED_SEED_MARKER_ID)
-        if (currentCount == 0 || hasOldGeneratedSeed || needsUpdatedCuratedSeed) {
+        // Si el seed del APK cambio de tamano (recetas nuevas o quitadas), se reimporta.
+        // Los favoritos viven en otra tabla y se conservan.
+        if (currentCount != seedRecipes.size || hasOldGeneratedSeed) {
             recipeDao.deleteAllRecipes()
-            recipeDao.insertRecipes(recipeSeedReader.readRecipes())
+            recipeDao.insertRecipes(seedRecipes)
         }
     }
 
@@ -35,6 +37,5 @@ class LocalRecipeRepository @Inject constructor(
 
     private companion object {
         const val OLD_GENERATED_SEED_ID = "milanesa-napolitana-clasica"
-        const val CURRENT_CURATED_SEED_MARKER_ID = "omelette-simple"
     }
 }
