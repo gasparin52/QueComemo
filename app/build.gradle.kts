@@ -1,9 +1,25 @@
+import java.util.Properties
+
+val localProperties = Properties().apply {
+    val localPropertiesFile = rootProject.file("local.properties")
+    if (localPropertiesFile.exists()) {
+        localPropertiesFile.inputStream().use { load(it) }
+    }
+}
+
+fun localProperty(name: String): String = localProperties.getProperty(name).orEmpty()
+
+fun String.asBuildConfigString(): String {
+    return "\"${replace("\\", "\\\\").replace("\"", "\\\"")}\""
+}
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.hilt.android)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.kapt)
     alias(libs.plugins.compose.compiler)
+    id("com.google.gms.google-services")
 }
 
 android {
@@ -21,6 +37,12 @@ android {
         vectorDrawables {
             useSupportLibrary = true
         }
+
+        buildConfigField(
+            "String",
+            "SPOONACULAR_API_KEY",
+            localProperty("SPOONACULAR_API_KEY").asBuildConfigString()
+        )
     }
 
     buildTypes {
@@ -35,6 +57,7 @@ android {
 
     buildFeatures {
         compose = true
+        buildConfig = true
     }
 
     compileOptions {
@@ -59,13 +82,20 @@ dependencies {
     implementation(libs.androidx.activity.compose)
     implementation(libs.google.material)
     implementation(libs.compose.ui)
+    implementation(libs.compose.animation)
     implementation(libs.compose.ui.graphics)
     implementation(libs.compose.ui.tooling.preview)
     implementation(libs.compose.material3)
     implementation(libs.firebase.auth)
+    implementation(libs.google.play.services.auth)
     implementation(libs.hilt.android)
+    implementation(libs.hilt.navigation.compose)
+    implementation(libs.kotlinx.coroutines.play.services)
+    implementation(libs.room.ktx)
+    implementation(libs.room.runtime)
 
     kapt(libs.hilt.android.compiler)
+    kapt(libs.room.compiler)
     debugImplementation(libs.compose.ui.tooling)
 }
 
