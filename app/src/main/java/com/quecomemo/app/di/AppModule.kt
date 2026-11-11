@@ -5,10 +5,12 @@ import androidx.room.Room
 import com.quecomemo.app.data.local.dao.FavoriteRecipeDao
 import com.quecomemo.app.data.local.dao.RecipeDao
 import com.quecomemo.app.data.local.database.QueComemoDatabase
+import com.quecomemo.app.data.remote.ai.GeminiAssistantRepository
 import com.quecomemo.app.data.repository.FirebaseAuthRepository
 import com.quecomemo.app.data.repository.FirebaseSessionRepository
 import com.quecomemo.app.data.repository.LocalFavoriteRepository
 import com.quecomemo.app.data.repository.LocalRecipeRepository
+import com.quecomemo.app.domain.repository.AssistantRepository
 import com.quecomemo.app.domain.repository.AuthRepository
 import com.quecomemo.app.domain.repository.FavoriteRepository
 import com.quecomemo.app.domain.repository.RecipeRepository
@@ -67,4 +69,10 @@ object AppModule {
     fun provideFavoriteRepository(
         localFavoriteRepository: LocalFavoriteRepository
     ): FavoriteRepository = localFavoriteRepository
+
+    @Provides
+    @Singleton
+    fun provideAssistantRepository(
+        geminiAssistantRepository: GeminiAssistantRepository
+    ): AssistantRepository = geminiAssistantRepository
 }

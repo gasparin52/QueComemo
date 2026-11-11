@@ -43,6 +43,11 @@ android {
             "SPOONACULAR_API_KEY",
             localProperty("SPOONACULAR_API_KEY").asBuildConfigString()
         )
+        buildConfigField(
+            "String",
+            "GEMINI_MODEL",
+            localProperty("GEMINI_MODEL").ifBlank { "gemini-3.8-flash" }.asBuildConfigString()
+        )
     }
 
     buildTypes {
@@ -87,6 +92,7 @@ dependencies {
     implementation(libs.compose.ui.tooling.preview)
     implementation(libs.compose.material3)
     implementation(libs.firebase.auth)
+    implementation(libs.firebase.ai)
     implementation(libs.google.play.services.auth)
     implementation(libs.hilt.android)
     implementation(libs.hilt.navigation.compose)
