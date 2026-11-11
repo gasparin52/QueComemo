@@ -1,3 +1,14 @@
 <resources>
     <string name="app_name">QueComemo</string>
+    <string name="login_logo_description">Logo de QueComemo</string>
+    <string name="login_title">Bienvenido a QueComemo</string>
+    <string name="login_subtitle">Inicia sesion con tu cuenta de Google para continuar.</string>
+    <string name="login_button">Continuar con Google</string>
+    <string name="home_logo_description">Logo de inicio de QueComemo</string>
+    <string name="home_title">Que comemos hoy?</string>
+    <string name="home_default_user">Sesion iniciada</string>
+    <string name="home_recipes_title">Recetas disponibles</string>
+    <string name="home_empty_recipes">Todavia no hay recetas cargadas.</string>
+    <string name="home_retry">Reintentar</string>
+    <string name="home_sign_out">Cerrar sesion</string>
 </resources>
