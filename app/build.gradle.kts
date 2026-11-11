@@ -103,6 +103,10 @@ dependencies {
     kapt(libs.hilt.android.compiler)
     kapt(libs.room.compiler)
     debugImplementation(libs.compose.ui.tooling)
+
+    testImplementation(libs.junit)
+    testImplementation(libs.mockk)
+    testImplementation(libs.kotlinx.coroutines.test)
 }
 
 kapt {
