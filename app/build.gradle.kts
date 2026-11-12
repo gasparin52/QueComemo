@@ -107,6 +107,8 @@ dependencies {
     testImplementation(libs.junit)
     testImplementation(libs.mockk)
     testImplementation(libs.kotlinx.coroutines.test)
+    // org.json real para los tests JVM (el de android.jar es un stub)
+    testImplementation(libs.org.json)
 }
 
 kapt {
