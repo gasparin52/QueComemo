@@ -3,3 +3,5 @@ SPOONACULAR_API_KEY=tu_api_key_de_spoonacular
 ADMOB_APP_ID=ca-app-pub-xxxxxxxxxxxxxxxx~yyyyyyyyyyyy
 ADMOB_BANNER_HOME_ID=ca-app-pub-xxxxxxxxxxxxxxxx/yyyyyyyyyy
 ADMOB_INTERSTITIAL_ID=ca-app-pub-xxxxxxxxxxxxxxxx/yyyyyyyyyy
+# Opcional: modelo de Gemini usado por el asistente (Firebase AI Logic)
+GEMINI_MODEL=gemini-3.8-flash
